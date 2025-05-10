@@ -99,14 +99,13 @@ def account_number():
         print("NIC not found. Please create a customer first.\n")
         return
 
-    # Generate a unique account number
     acc_number = generate_unique_account_number()
 
     # Prompt for password
     account_password = input("Set a password for this account: ").strip()
 
     # Save to file
-    with open("account_number.txt", 'a') as f:
+    with open("account_number.txt", 'w') as f:
         f.write(f"{acc_number}\t{nic}\t{customer_name}\t{account_password}\n")
 
     print("\nAccount successfully created!")
@@ -116,44 +115,48 @@ def account_number():
 
 # ==================== To creat a first admin ==============================================================
 
-
-import os
-
-
-if not os.path.exists("admin.txt") or os.path.getsize("admin.txt") == 0:
-    with open("admin.txt", 'w') as file:
-        file.write("admin1\tadmin10")
+def admin_login():
+    import os
 
 
-with open("admin.txt", 'r') as file:
-    data = file.read().strip()
-    if "\t" in data:
-        stored_uname, stored_pword = data.split("\t")
-    else:
-        print("Admin file is corrupted. Resetting to default credentials.")
-        stored_uname = "admin1"
-        stored_pword = "admin10"
+    if not os.path.exists("admin.txt") or os.path.getsize("admin.txt") == 0:
         with open("admin.txt", 'w') as file:
-            file.write(f"{stored_uname}\t{stored_pword}")
+            file.write("admin1\tadmin10")
 
 
-print("\nWelcome to our banking system.\n")
+    with open("admin.txt", 'r') as file:
+        data = file.read().strip()
+        if "\t" in data:
+            stored_uname, stored_pword = data.split("\t")
+        else:
+            print("Admin file is corrupted. Resetting to default credentials.")
+            stored_uname = "admin1"
+            stored_pword = "admin10"
+            with open("admin.txt", 'w') as file:
+                file.write(f"{stored_uname}\t{stored_pword}")
 
-# Get admin credentials from input
-admin_name = input("Enter admin user name: ").strip()
-admin_word = input("Enter admin password: ").strip()
 
-# Read the stored admin credentials
-with open("admin.txt", 'r') as file:
-    stored_uname, stored_pword = file.read().strip().split("\t")
+    print("\nWelcome to our banking system.\n")
 
-# Check if the entered credentials match the stored ones
-if admin_name == stored_uname and admin_word == stored_pword:
-    print("Admin login successful \n")
-    admin_list()
 
-else:
-    print("Admin not found.\n")
+    admin_name = input("Enter admin user name: ").strip()
+    admin_word = input("Enter admin password: ").strip()
+
+
+    with open("admin.txt", 'r') as file:
+        stored_uname, stored_pword = file.read().strip().split("\t")
+
+
+    if admin_name == stored_uname and admin_word == stored_pword:
+        print("Admin login successful \n")
+        admin_list()
+
+    else:
+        print("Admin not found.\n")
+        admin_login()
+
+
+admin_login()
 
 
 # #=========================================================================================================
