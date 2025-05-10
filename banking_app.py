@@ -72,7 +72,7 @@ def creat_customer():
     customer_address =(input("Enter custemer address : "))
 
 
-    with open("customer.txt",'w') as file :
+    with open("customer.txt",'a') as file :
         file.write(f"{customer_nic}\t{customer_name}\t {customer_address}\n")
     
     admin_list()
@@ -110,12 +110,13 @@ def account_number():
     account_password = input("Set a password for this account : ").strip()
     incial_balance = input("Enter your incial account balance : ")
 
-    # Save to file
-    with open("account_number.txt", 'w') as f:
+
+    with open("account_number.txt", 'a') as f:
         f.write(f"{acc_number},{nic},{customer_name},{account_password},{incial_balance}\n")
 
     print("\nAccount successfully created!")
     print(f"Account Number: {acc_number}\n")
+    admin_list()
 
 #=====================================================================================================
 #======================= withdraw money ==============================================================
