@@ -32,10 +32,14 @@ def admin_list():
         elif choice == 3 :
             account_number()
             break
+        
+        elif choice == 4 :
+            withdraw_money()
+            break
 
 
         elif choice == 12 :
-            print("thank you")
+            print("thank you..!")
             break
 
 #=====================================================================================================
@@ -72,7 +76,7 @@ def creat_customer():
         file.write(f"{customer_nic}\t{customer_name}\t {customer_address}\n")
     
     admin_list()
-#=====================================================================================================
+#==========================================================================================================
 
 #================= creat account number for customer ======================================================
 
@@ -86,7 +90,7 @@ def account_number():
     found = False
     customer_name = ""
 
-    # Check if NIC exists in customer.txt
+
     with open("customer.txt", 'r') as file:
         for line in file:
             parts = line.strip().split('\t')
@@ -96,22 +100,58 @@ def account_number():
                 break
 
     if not found:
-        print("NIC not found. Please create a customer first.\n")
-        return
+        print("NIC not found. Please enter valid customer NIC \n")
+        admin_list()
+        
 
     acc_number = generate_unique_account_number()
 
     # Prompt for password
-    account_password = input("Set a password for this account: ").strip()
+    account_password = input("Set a password for this account : ").strip()
+    incial_balance = input("Enter your incial account balance : ")
 
     # Save to file
     with open("account_number.txt", 'w') as f:
-        f.write(f"{acc_number}\t{nic}\t{customer_name}\t{account_password}\n")
+        f.write(f"{acc_number},{nic},{customer_name},{account_password},{incial_balance}\n")
 
     print("\nAccount successfully created!")
     print(f"Account Number: {acc_number}\n")
 
 #=====================================================================================================
+#======================= withdraw money ==============================================================
+
+def withdraw_money():
+    acc_number = input("Enter your account number : ").strip()
+    acc_password = input("Enter your account password : ").strip()
+    found = False
+
+    with open("account_number.txt", 'r') as file:
+        for line in file:
+            parts = line.strip().split(',')
+            if parts[0] == acc_number and parts[3] == acc_password:
+                found = True
+                # customer_name = parts[1].strip()
+                balance = float(parts[4])
+                withdraw_amount = float(input("Enter your withdrawal amount : "))
+                if withdraw_amount <= balance:
+                    balance -= withdraw_amount
+                    print(f"New balance: {balance}")
+                else:
+                    print("Insufficient balance!")
+                
+                with open ("account_number.txt",'r') as file:
+                    acc1 =file.readlines()
+                with open ("account_number.txt",'w') as file:
+                    for acc2 in acc1:
+                        acc3 = acc2.strip().split(',')
+                        if acc_number == acc3[0]:
+                            acc3[-1] = balance
+                        file.write(f"{acc3[0]},{acc3[1]},{acc3[2]},{acc3[3]},{acc3[4]}\n")
+        else:
+            print("Invalid account number or password..!")
+            admin_list()
+            
+
 
 # ==================== To creat a first admin ==============================================================
 
@@ -159,7 +199,7 @@ def admin_login():
 admin_login()
 
 
-# #=========================================================================================================
+# #========================================================================================================
 
-#=============================================================================================================
+#==========================================================================================================
 
