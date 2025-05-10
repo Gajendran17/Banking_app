@@ -68,7 +68,7 @@ def creat_customer():
     customer_address =(input("Enter custemer address : "))
 
 
-    with open("customer.txt",'a') as file :
+    with open("customer.txt",'w') as file :
         file.write(f"{customer_nic}\t{customer_name}\t {customer_address}\n")
     
     admin_list()
@@ -76,69 +76,67 @@ def creat_customer():
 
 #================= creat account number for customer ======================================================
 
-# import random
-# def account_number():
-#     nic = input("Enter your NIC: ")
-#     found = False
-#     line_number = 1
+import random
 
-#     file = open("customer.txt", 'r')
+def generate_unique_account_number():
+    return str(random.randint(10000000, 99999999))
 
-#     for line in file:
-#         parts = line.split('\t')  # Split line by tab
-#         if parts[0] == nic:
-#             def account_number():
-#     nic = input("Enter your NIC: ").strip()
-#     found = False
-#     customer_name = ""
+def account_number():
+    nic = input("Enter your NIC: ").strip()
+    found = False
+    customer_name = ""
 
-#     # Check if NIC exists in customer.txt
-#     with open("customer.txt", 'r') as file:
-#         for line in file:
-#             parts = line.strip().split('\t')
-#             if parts[0] == nic:
-#                 found = True
-#                 customer_name = parts[1].strip()
-#                 break
+    # Check if NIC exists in customer.txt
+    with open("customer.txt", 'r') as file:
+        for line in file:
+            parts = line.strip().split('\t')
+            if parts[0] == nic:
+                found = True
+                customer_name = parts[1].strip()
+                break
 
-#     if not found:
-#         print("NIC not found. Please create a customer first.\n")
-#         return
+    if not found:
+        print("NIC not found. Please create a customer first.\n")
+        return
 
-#     # Generate a unique account number
-#     account_number = generate_unique_account_number()
+    # Generate a unique account number
+    acc_number = generate_unique_account_number()
 
-#     # Prompt for password
-#     account_password = input("Set a password for this account: ").strip()
+    # Prompt for password
+    account_password = input("Set a password for this account: ").strip()
 
-#     # Save to file
-#     with open("account_number.txt", 'a') as f:
-#         f.write(f"{account_number}\t{nic}\t{customer_name}\t{account_password}\n")
+    # Save to file
+    with open("account_number.txt", 'a') as f:
+        f.write(f"{acc_number}\t{nic}\t{customer_name}\t{account_password}\n")
 
-#     print("\nAccount successfully created!")
-#     print(f"Account Number: {account_number}\n")
+    print("\nAccount successfully created!")
+    print(f"Account Number: {acc_number}\n")
 
-#             found = True
-#             break
-#         line_number = line_number + 1
-
-#     file.close()
-
-#     if not found:
-#         print("NIC not found.\n")
 #=====================================================================================================
 
-# ==================== mjkTo creat a first admin ==============================================================
+# ==================== To creat a first admin ==============================================================
 
 
 import os
 
-# Check if the admin file exists, if not, create it with default credentials
-if not os.path.exists("admin.txt"):
+
+if not os.path.exists("admin.txt") or os.path.getsize("admin.txt") == 0:
     with open("admin.txt", 'w') as file:
         file.write("admin1\tadmin10")
 
-# Welcome message
+
+with open("admin.txt", 'r') as file:
+    data = file.read().strip()
+    if "\t" in data:
+        stored_uname, stored_pword = data.split("\t")
+    else:
+        print("Admin file is corrupted. Resetting to default credentials.")
+        stored_uname = "admin1"
+        stored_pword = "admin10"
+        with open("admin.txt", 'w') as file:
+            file.write(f"{stored_uname}\t{stored_pword}")
+
+
 print("\nWelcome to our banking system.\n")
 
 # Get admin credentials from input
@@ -152,8 +150,11 @@ with open("admin.txt", 'r') as file:
 # Check if the entered credentials match the stored ones
 if admin_name == stored_uname and admin_word == stored_pword:
     print("Admin login successful \n")
+    admin_list()
+
 else:
     print("Admin not found.\n")
+
 
 # #=========================================================================================================
 
