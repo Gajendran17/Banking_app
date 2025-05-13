@@ -40,6 +40,11 @@ def admin_list():
         elif choice == 5 :
             deposit_money()
             break
+        
+        elif choice == 6 :
+            check_balance()
+            break
+        
 
 
         elif choice == 12 :
@@ -115,7 +120,7 @@ def account_number():
     incial_balance = input("Enter your incial account balance : ")
 
 
-    with open("account_number.txt", 'a') as f:
+    with open("account.txt", 'a') as f:
         f.write(f"{acc_number},{nic},{customer_name},{account_password},{incial_balance}\n")
 
     print("\nAccount created  successfully..!")
@@ -129,7 +134,7 @@ def withdraw_money():
     acc_number = input("Enter your account number : ").strip()
     found = False
 
-    with open("account_number.txt", 'r') as file:
+    with open("account.txt", 'r') as file:
         for line in file:
             parts = line.strip().split(',')
             if parts[0] == acc_number :
@@ -145,9 +150,9 @@ def withdraw_money():
                 else:
                     print("Insufficient balance!")
                 
-                with open ("account_number.txt",'r') as file:
+                with open ("account.txt",'r') as file:
                     acc1 =file.readlines()
-                with open ("account_number.txt",'w') as file:
+                with open ("account.txt",'w') as file:
                     for acc2 in acc1:
                         acc3 = acc2.strip().split(',')
                         if acc_number == acc3[0]:
@@ -165,7 +170,7 @@ def deposit_money():
     account_number = input("Enter account number : ").strip() 
     found = False
     
-    with open("account_number.txt",'r') as file :
+    with open("account.txt",'r') as file :
         for line in file:
             parts = line.strip().split(',')
             if parts[0] == account_number :
@@ -178,9 +183,9 @@ def deposit_money():
                     balance += deposit_amount 
                     print(f"New balance : {balance}")
                     
-                with open ("account_number.txt",'r') as file:
+                with open ("account.txt",'r') as file:
                     acc1 =file.readlines()
-                with open ("account_number.txt",'w') as file:
+                with open ("account.txt",'w') as file:
                     for acc2 in acc1:
                         acc3 = acc2.strip().split(',')
                         if account_number == acc3[0]:
@@ -190,8 +195,28 @@ def deposit_money():
             if parts[0] != account_number :   
                 print("Invalid account number..!")    
                 admin_list()
-   
-                    
+   #.........................................................................................................
+# ==================== chack balance  =======================================================================
+
+def check_balance():
+    account_number = input("Enter account number : ")
+    
+    with open("account.txt",'r') as file :
+        for line in file :
+            parts = line.strip().split(',')
+            if parts[0] == account_number :
+                print(f"avilable balance : {parts[-1]}")
+                
+                
+    admin_list()
+            
+            
+            
+            
+            
+            
+            
+            
 #...........................................................................................................
 # ==================== To creat a first admin ==============================================================
 
