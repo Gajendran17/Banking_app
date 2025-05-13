@@ -15,9 +15,8 @@ def admin_list():
         print("07. Check account history")
         print("08. Update an account ditails")
         print("09. delete an account")
-        print("10. Check withdrawal history ")
-        print("11. Check deposit history ")
-        print("12. Exit\n")
+
+        print("10. Exit\n")
 
             
         choice =int(input("\nEnter your choice (1 - 10) : "))
@@ -47,7 +46,7 @@ def admin_list():
         
 
 
-        elif choice == 12 :
+        elif choice == 10 :
             print("thank you..!")
             break
 
@@ -67,7 +66,7 @@ def edit_admin():
     with open("admin.txt",'w') as file :
         file.write(f"{new_admin_name}\t{new_admin_word}")
 
-#========================================================================================================
+#=======================================================================================================
 
 # #===============to create new user ==================================================================
      
@@ -116,8 +115,14 @@ def account_number():
     acc_number = generate_unique_account_number()
 
     # Prompt for password
-    account_password = input("Set a password for this account : ").strip()
+    account_password = input("Set 4 digit password for this account : ").strip()
+    if len(account_password) != 4 :
+        print("Password not strong..!")
+        account_password = input("Set 4 digit password for this account : ").strip()
+        
+        
     incial_balance = input("Enter your incial account balance : ")
+    
 
 
     with open("account.txt", 'a') as f:
@@ -140,7 +145,7 @@ def withdraw_money():
             if parts[0] == acc_number :
                 found = True
                 # customer_name = parts[1].strip()
-                balance = float(parts[4])
+                balance = float(parts[-1])
                 withdraw_amount = float(input("Enter your withdrawal amount : "))
                 if withdraw_amount <= balance:
                     balance -= withdraw_amount
@@ -158,11 +163,13 @@ def withdraw_money():
                         if acc_number == acc3[0]:
                             acc3[-1] = balance
                         file.write(f"{acc3[0]},{acc3[1]},{acc3[2]},{acc3[3]},{acc3[4]}\n")
+                        
+                with open("account_history.txt",'a') as file :
+                    file.write(f"{parts[0]}, deposit ,{withdraw_amount},{balance}\n")
         
-        if parts[0] != acc_number :   
-            print("Invalid account number..!")    
-            admin_list()
-            
+    if parts[0] != acc_number :     
+        admin_list()
+        
 #=====================================================================================================
 
 #======================= Deposit money ==============================================================
@@ -192,9 +199,9 @@ def deposit_money():
                             acc3[-1] = balance
                         file.write(f"{acc3[0]},{acc3[1]},{acc3[2]},{acc3[3]},{acc3[4]}\n")
 
-            if parts[0] != account_number :   
-                print("Invalid account number..!")    
-                admin_list()
+        if parts[0] != account_number :   
+            print("Invalid account number..!")    
+            admin_list()
    #.........................................................................................................
 # ==================== chack balance  =======================================================================
 
@@ -209,14 +216,10 @@ def check_balance():
                 
                 
     admin_list()
-            
-            
-            
-            
-            
-            
-            
-            
+             
+             
+#...........................................................................................................
+# ==================== Check account history ===============================================================
 #...........................................................................................................
 # ==================== To creat a first admin ==============================================================
 
