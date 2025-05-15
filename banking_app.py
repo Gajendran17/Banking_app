@@ -78,10 +78,11 @@ def creat_customer():
         print("Invalid NIC number!")
         admin_list()
     customer_address =(input("Enter custemer address : "))
+    customer_password =(input("set a password for customer : "))
 
 
     with open("customer.txt",'a') as file :
-        file.write(f"{customer_nic}\t{customer_name}\t {customer_address}\n")
+        file.write(f"{customer_nic},{customer_name},{customer_address},{customer_password}\n")
     
     admin_list()
 #==========================================================================================================
@@ -225,8 +226,7 @@ def check_balance():
 
 def admin_login():
     import os
-
-
+ 
     if not os.path.exists("admin.txt") or os.path.getsize("admin.txt") == 0:
         with open("admin.txt", 'w') as file:
             file.write("admin1\tadmin10")
@@ -234,7 +234,7 @@ def admin_login():
 
     with open("admin.txt", 'r') as file:
         data = file.read().strip()
-        if "\t" in data:
+        if "\t" in data :
             stored_uname, stored_pword = data.split("\t")
         else:
             print("Admin file is corrupted. Resetting to default credentials.")
@@ -264,10 +264,73 @@ def admin_login():
         admin_login()
 
 
-admin_login()
 
 
-# #========================================================================================================
 
-#==========================================================================================================
+# #==========================================================================================================
+#=============================== customer login ============================================================
+def customer_login():
+    username = input("Enter your username: ")
+    password = input("Enter your password: ")
+    found = False
+    try:
+        with open("customer.txt", "r") as user_file:
+            for line in user_file:
+                parts = line.strip().split(",")
+                if len(parts) == 4 and parts[1] == username :
+                    print("Login successful!")
+                    while True:
+                        print("\nCustomer Menu")
+                        print("1. Deposit")
+                        print("2. Withdraw")
+                        print("3. Transfer Money")
+                        print("4. View Transaction history")
+                        print("5. Check Balance")
+                        print("6. Exit")
 
+                        choice = input("Enter choice: ")
+
+                        if choice == "1":
+                            print("program not finished")
+                        elif choice == "2":
+                            print("program not finished")
+                        elif choice == "3":
+                            print("program not finished")
+                        elif choice == "4":
+                            print("program not finished")
+                        elif choice == "5":
+                            print("program not finished")
+                        elif choice == "6":
+                            break
+                        else:
+                            print("Invalid input.")
+
+                        found = True
+                        break
+            if not found:
+                print("Invalid UserName or Pasword!")
+    
+    except FileNotFoundError:
+        print("User file not found.")
+
+
+
+# #========== first login ====================================================================================
+def main_menu():
+    print("Welcome to our banking system\n")
+    print("01. Admin login")
+    print("02. Customer login\n")
+
+    choice = input("Enter your choice (1 / 2): ").strip()
+    if choice == "1":
+        admin_login()
+    elif choice == "2":
+        customer_login()
+    else:
+        print("Invalid choice. Please enter 1 or 2.")
+        main_menu()
+
+
+main_menu()
+
+ #=======================================================================================================
