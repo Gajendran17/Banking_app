@@ -1,5 +1,4 @@
 
-
 import os
 
 def admin_list():
@@ -203,10 +202,34 @@ def admin_login():
         admin_login()
 
 
-admin_login()
+
 
 
 # #========================================================================================================
 
-#==========================================================================================================
+#=================== main Login =======================================================
+def main_login():
+    while True:
+        print ("\n..........login menu.........\n")
+        print ("01. Admin login")
+        print ("02. User logim")
+        print ("03. Exit")
+        choice =input ("Enter your choice(1 / 2) : ")
+        if choice == "1" :
+            admin_login()
+
+        elif choice == "2" :
+            print("User login system not finished.")
+        
+        elif choice == "3" :
+            print("Thank you! bye..!\n")
+            break
+
+        else :
+            print("Invalid choice.! try again")
+            main_login()
+
+main_login()
+#........................................................................................
+
 
