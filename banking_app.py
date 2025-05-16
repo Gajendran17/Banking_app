@@ -72,6 +72,7 @@ def creat_customer():
 
     with open("customer.txt",'a') as file :
         file.write(f"{customer_nic}\t{customer_name}\t {customer_address}\n")
+        print("Customer craeted successfully..!")
     
     admin_list()
 #==========================================================================================================
@@ -127,12 +128,13 @@ def account_number():
 
 def withdraw_money():
     acc_number = input("Enter your account number : ").strip()
+    acc_password = input("Enter your account pasword : ").strip()
     found = False
 
     with open("account.txt", 'r') as file:
         for line in file:
             parts = line.strip().split(',')
-            if parts[0] == acc_number and parts[3] == acc_password:
+            if parts[0] == acc_number and parts[3] == acc_password :
                 found = True
                 # customer_name = parts[1].strip()
                 balance = float(parts[4])
