@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 gajan	1010
+=======
+Gajan	1010
+>>>>>>> 3bf3052526afd4c20dacfa3f2f21c0eff490e2d5

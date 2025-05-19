@@ -38,6 +38,11 @@ def admin_list():
         elif choice == 5 :
             deposit_money()
             break
+     
+        elif choice == 6 :
+            check_balance()
+            break
+        
 
 
         elif choice == 10 :
@@ -66,19 +71,32 @@ def edit_admin():
      
             
 def creat_customer():
-    customer_name =input("Enter new customer name : ")
-    customer_nic =(input("Enter custemer NIC : "))
-    if len(customer_nic) != 12 :
-        print("Invalid NIC number!")
+    while True:
+        customer_name = input("Enter new customer name: ").strip()
+
+        # Validate: only letters and spaces
+        if not all(x.isalpha() or x.isspace() for x in customer_name):
+            print("Invalid name! Use letters and spaces only.")
+            continue
+
+        # Convert to Title Case
+        customer_name = customer_name.title()
+
+        break  # Name is valid
+
+    customer_nic = input("Enter customer NIC: ").strip()
+    if len(customer_nic) != 12:
+        print("Invalid NIC number! Must be 12 characters.")
         admin_list()
-    customer_address =(input("Enter custemer address : "))
 
+    customer_address = input("Enter customer address: ").strip()
+    customer_password = input("Set a password for customer: ").strip()
 
-    with open("customer.txt",'a') as file :
+with open("customer.txt",'a') as file :
         file.write(f"{customer_nic}\t{customer_name}\t {customer_address}\n")
-        print("Customer craeted successfully..!")
     
     admin_list()
+
 #==========================================================================================================
 
 #================= creat account number for customer ======================================================
@@ -204,8 +222,7 @@ def deposit_money():
 
 def admin_login():
     import os
-
-
+ 
     if not os.path.exists("admin.txt") or os.path.getsize("admin.txt") == 0:
         with open("admin.txt", 'w') as file:
             file.write("admin1\tadmin10")
@@ -213,7 +230,7 @@ def admin_login():
 
     with open("admin.txt", 'r') as file:
         data = file.read().strip()
-        if "\t" in data:
+        if "\t" in data :
             stored_uname, stored_pword = data.split("\t")
         else:
             print("Admin file is corrupted. Resetting to default credentials.")
@@ -242,35 +259,10 @@ def admin_login():
         print("Admin not found.\n")
         admin_login()
 
-
-
+admin_login()
 
 
 # #========================================================================================================
 
-#=================== main Login =======================================================
-def main_login():
-    while True:
-        print ("\n..........login menu.........\n")
-        print ("01. Admin login")
-        print ("02. User logim")
-        print ("03. Exit")
-        choice =input ("Enter your choice(1 / 2) : ")
-        if choice == "1" :
-            admin_login()
-
-        elif choice == "2" :
-            print("User login system not finished.")
-        
-        elif choice == "3" :
-            print("Thank you! bye..!\n")
-            break
-
-        else :
-            print("Invalid choice.! try again")
-            main_login()
-
-main_login()
-#........................................................................................
-
+#==========================================================================================================
 

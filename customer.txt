@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 200363000260	Dilsha	 Jafna
 200510103692	Gajan	 Ratnapura
 200541236987	Ram	 Nallur
 00996671186V	Shadhusha	 Jaffna
 123456789000	saru	 mannar
 200574100944	Gayu	 nallur
+=======
+
+200341710722	Priyan	Jaffna	1213
+200510103692,Gajendran,Ratnapura,1213
+>>>>>>> 3bf3052526afd4c20dacfa3f2f21c0eff490e2d5
