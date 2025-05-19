@@ -1,3 +1,24 @@
+from datetime import datetime
+
+def view_transaction_history(account_number):
+    try:
+        with open("account_history.txt", "r") as file:
+            transactions = []
+
+            for line in file:
+                parts = line.strip().split(',')
+                if len(parts) >= 5 and parts[0] == account_number:
+                    transactions.append(parts)
+
+            if not transactions:
+                print("No transactions found for this account.")
+                return
+
+            print("\nLast 5 Transactions:")
+            for txn in transactions[-5:]:  # Last 5 entries
+                print(f"{txn[4]} - {txn[1].capitalize()} of {txn[2]} | Balance: {txn[3]}")
+    except FileNotFoundError:
+        print("Transaction file not found.")
 
 
 import os
@@ -44,6 +65,10 @@ def admin_list():
             check_balance()
             break
         
+        elif choice == 12 :
+            view_transaction_history(account_number)
+            break
+        
 
 
         elif choice == 10 :
@@ -72,19 +97,33 @@ def edit_admin():
      
             
 def creat_customer():
-    customer_name =input("Enter new customer name : ")
-    customer_nic =(input("Enter custemer NIC : "))
-    if len(customer_nic) != 12 :
-        print("Invalid NIC number!")
+    while True:
+        customer_name = input("Enter new customer name: ").strip()
+
+        # Validate: only letters and spaces
+        if not all(x.isalpha() or x.isspace() for x in customer_name):
+            print("Invalid name! Use letters and spaces only.")
+            continue
+
+        # Convert to Title Case
+        customer_name = customer_name.title()
+
+        break  # Name is valid
+
+    customer_nic = input("Enter customer NIC: ").strip()
+    if len(customer_nic) != 12:
+        print("Invalid NIC number! Must be 12 characters.")
         admin_list()
-    customer_address =(input("Enter custemer address : "))
-    customer_password =(input("set a password for customer : "))
 
+    customer_address = input("Enter customer address: ").strip()
+    customer_password = input("Set a password for customer: ").strip()
 
-    with open("customer.txt",'a') as file :
+    with open("customer.txt", 'a') as file:
         file.write(f"{customer_nic},{customer_name},{customer_address},{customer_password}\n")
-    
+
+    print(f"Customer '{customer_name}' created successfully.")
     admin_list()
+
 #==========================================================================================================
 
 #================= creat account number for customer ======================================================
@@ -269,49 +308,49 @@ def admin_login():
 
 # #==========================================================================================================
 #=============================== customer login ============================================================
-def customer_login():
-    username = input("Enter your username: ")
-    password = input("Enter your password: ")
-    found = False
-    try:
-        with open("customer.txt", "r") as user_file:
-            for line in user_file:
-                parts = line.strip().split(",")
-                if len(parts) == 4 and parts[1] == username :
-                    print("Login successful!")
-                    while True:
-                        print("\nCustomer Menu")
-                        print("1. Deposit")
-                        print("2. Withdraw")
-                        print("3. Transfer Money")
-                        print("4. View Transaction history")
-                        print("5. Check Balance")
-                        print("6. Exit")
+# def customer_login():
+#     username = input("Enter your username: ")
+#     password = input("Enter your password: ")
+#     found = False
+#     try:
+#         with open("customer.txt", "r") as user_file:
+#             for line in user_file:
+#                 parts = line.strip().split(",")
+#                 if len(parts) == 4 parts[1] == username :
+#                     print("Login successful!")
+#                     while True:
+#                         print("\nCustomer Menu")
+#                         print("1. Deposit")
+#                         print("2. Withdraw")
+#                         print("3. Transfer Money")
+#                         print("4. View Transaction history")
+#                         print("5. Check Balance")
+#                         print("6. Exit")
 
-                        choice = input("Enter choice: ")
+#                         choice = input("Enter choice: ")
 
-                        if choice == "1":
-                            print("program not finished")
-                        elif choice == "2":
-                            print("program not finished")
-                        elif choice == "3":
-                            print("program not finished")
-                        elif choice == "4":
-                            print("program not finished")
-                        elif choice == "5":
-                            print("program not finished")
-                        elif choice == "6":
-                            break
-                        else:
-                            print("Invalid input.")
+#                         if choice == "1":
+#                             print("program not finished")
+#                         elif choice == "2":
+#                             print("program not finished")
+#                         elif choice == "3":
+#                             print("program not finished")
+#                         elif choice == "4":
+#                             print("program not finished")
+#                         elif choice == "5":
+#                             print("program not finished")
+#                         elif choice == "6":
+#                             break
+#                         else:
+#                             print("Invalid input.")
 
-                        found = True
-                        break
-            if not found:
-                print("Invalid UserName or Pasword!")
+#                         found = True
+#                         break
+#             if not found:
+#                 print("Invalid UserName or Pasword!")
     
-    except FileNotFoundError:
-        print("User file not found.")
+#     except FileNotFoundError:
+#         print("User file not found.")
 
 
 
