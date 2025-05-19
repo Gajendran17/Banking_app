@@ -34,6 +34,10 @@ def admin_list():
         elif choice == 4 :
             withdraw_money()
             break
+        
+        elif choice == 5 :
+            deposit_money()
+            break
 
 
         elif choice == 10 :
@@ -146,6 +150,41 @@ def withdraw_money():
                     print("please enter valid amount..!")
                 else:
                     print("Insufficient balance!")
+                
+                with open ("account.txt",'r') as file:
+                    acc1 =file.readlines()
+                with open ("account.txt",'w') as file:
+                    for acc2 in acc1:
+                        acc3 = acc2.strip().split(',')
+                        if acc_number == acc3[0]:
+                            acc3[-1] = balance
+                        file.write(f"{acc3[0]},{acc3[1]},{acc3[2]},{acc3[3]},{acc3[4]}\n")
+        else:
+            print("Invalid account number or password..!")
+            admin_list()
+
+
+#======================= deposit money  ==============================================================
+
+def deposit_money():
+    acc_number = input("Enter your account number : ").strip()
+    acc_password = input("Enter your account pasword : ").strip()
+    found = False
+
+    with open("account.txt", 'r') as file:
+        for line in file:
+            parts = line.strip().split(',')
+            if parts[0] == acc_number and parts[3] == acc_password :
+                found = True
+                # customer_name = parts[1].strip()
+                balance = float(parts[4])
+                deposit_amount = float(input("Enter your deposit amount : "))
+                if deposit_amount > 0:
+                    balance += deposit_amount
+                    print(f"New balance : {balance}")
+                elif deposit_amount <= 0 :
+                    print("please enter valid amount..!")
+                
                 
                 with open ("account.txt",'r') as file:
                     acc1 =file.readlines()
